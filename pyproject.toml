@@ -1,15 +1,15 @@
 [project]
 name = "kenya-market-prices"
 version = "0.1.0"
-description = "Add your description here"
+description = "Analysis of food prices across Kenyan markets"
 readme = "README.md"
 authors = [
     { name = "pinkleather221", email = "nellymogere2002@gmail.com" }
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "numpy>=2.5.4",
-    "pandas>=3.1.0",
+    "numpy>=2.5.1",
+    "pandas>=3.0.5",
 ]
 
 [project.scripts]
@@ -18,3 +18,8 @@ kenya-market-prices = "kenya_market_prices:main"
 [build-system]
 requires = ["uv_build>=0.12.23,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
