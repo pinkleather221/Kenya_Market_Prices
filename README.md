@@ -4,6 +4,8 @@ An analysis of monthly food prices across Kenyan markets from **January 2006 to 
 
 All work is in [analysis.ipynb](analysis.ipynb), using [data/food-prices-kenya.csv](data/food-prices-kenya.csv).
 
+**The short note for Pamoja, with advice for farmers and county officers, is in [PAMOJA_NOTE.md](PAMOJA_NOTE.md).**
+
 ---
 
 ## The data
@@ -16,6 +18,9 @@ All work is in [analysis.ipynb](analysis.ipynb), using [data/food-prices-kenya.c
 | Markets | 14 |
 | Price types | **Wholesale**, quoted per 90 kg bag (Eldoret, Kisumu, Mombasa, Nairobi, Nakuru) and **Retail**, quoted per kg (Garissa, Hola, Kajiado, Kilifi, Kitui, Lodwar, Mandera, Marigat, Marsabit) |
 | Columns | date, region, county, market, commodity, price_type, unit, price_kes, price_usd |
+| Source | World Food Programme (WFP) market price data for Kenya, published on the [Humanitarian Data Exchange (HDX)](https://data.humdata.org/) |
+
+**Units for maize:** all 721 wholesale maize records are per **90 KG** bag, and all 955 retail maize records are per **KG**. Wholesale and retail prices are never averaged together. They are only compared after converting to `price_per_kg`.
 
 ### Cleaning steps
 - Converted `date` to real dates and added `year` and `month` columns.
@@ -103,6 +108,39 @@ Box plots and violin plots of wholesale maize prices by market show that each ma
 
 Eldoret, close to where much of Kenya's maize is grown, is usually the cheapest. Kisumu and Nairobi, where more maize is consumed, are usually dearer. Where a farmer sells matters, not just when.
 
+### 6. Households in Lodwar and Mandera pay the most for maize
+Average retail maize price per kg, 2015–2019, in the nine county markets:
+
+| Rank | Market (county) | Avg price per kg |
+|---|---|---|
+| 1 | Lodwar (Turkana) | **KES 75.85 (most expensive)** |
+| 2 | Mandera | KES 67.53 |
+| 3 | Garissa | KES 59.73 |
+| 4 | Kajiado | KES 50.88 |
+| 5 | Hola (Tana River) | KES 49.87 |
+| 6 | Marsabit | KES 47.50 |
+| 7 | Marigat (Baringo) | KES 46.53 |
+| 8 | Kilifi | KES 43.84 |
+| 9 | Kitui | **KES 36.19 (cheapest)** |
+
+Each market's rank within each year (1 = most expensive):
+
+| Market | 2015 | 2016 | 2017 | 2018 | 2019 |
+|---|---|---|---|---|---|
+| Lodwar | 1 | 1 | 1 | 1 | 3 |
+| Mandera | 2 | 2 | 2 | 2 | 1 |
+| Garissa | 3 | 3 | 4 | 3 | 2 |
+| Kajiado | 5 | 5 | 3 | 5 | 5 |
+| Hola | 7 | 4 | 5 | 4 | 4 |
+| Marsabit | 4 | 6 | 8 | 6 | 7 |
+| Marigat | 6 | 7 | 6 | 8 | 6 |
+| Kilifi | 8 | 8 | 7 | 7 | 8 |
+| Kitui | 9 | 9 | 9 | 9 | 9 |
+
+- **Lodwar and Mandera were in the top three every single year.** Garissa came close but dropped to 4th in 2017.
+- **Kitui was the cheapest every year.** Households in Lodwar paid about **twice** what households in Kitui paid.
+- The most expensive markets are remote and arid, far from the maize-growing areas, so transport costs and isolation push prices up.
+
 ---
 
 ## Assumptions and limitations
@@ -137,6 +175,37 @@ Eldoret, close to where much of Kenya's maize is grown, is usually the cheapest.
 
 ---
 
+## Advice for county officers
+
+- **Focus food-price support on Turkana and Mandera.** Lodwar and Mandera were among the three most expensive retail maize markets every year from 2015 to 2019, and Lodwar's prices were about twice Kitui's. Better roads and transport, market links with surplus areas such as Eldoret, and food assistance in the lean season (April–July) would do the most good there.
+
+---
+
+## Answers to the guiding questions
+
+| Question | Answer |
+|---|---|
+| Which units appear for wholesale and retail maize? | Wholesale: 90 KG bag. Retail: KG. |
+| How does retail price per kg compare with wholesale? | Retail KES 47.92 vs wholesale KES 28.54 per kg, about KES 19 (68%) more. |
+| Which year had the highest average wholesale price? | 2017 (KES 3,744 per bag). |
+| Biggest rise and biggest fall vs the year before? | Rise: 2011 (+KES 1,246). Fall: 2018 (−KES 1,335). |
+| Cheapest and dearest month? | Cheapest: January (KES 2,330). Dearest: June (KES 2,839). |
+| Share of market-years where June > January, and median gain? | 73.3% (44 of 60). Median gain KES 356 per bag. |
+| What costs and risks does the storage calculation leave out? | Pests, mould and aflatoxin, weight loss, bag/storage costs, the cost of waiting for cash, theft, policy and price risk, and the gap between market and farm-gate prices (see *Assumptions and limitations*). |
+| Most and least expensive retail market, 2015–2019? | Most expensive: Lodwar (KES 75.85/kg). Cheapest: Kitui (KES 36.19/kg). |
+| Markets in the top three every year? | Lodwar and Mandera. |
+
+---
+
+## How to run
+
+```bash
+uv sync
+```
+Then open `analysis.ipynb` in VS Code, select the `.venv` kernel, and click **Run All**.
+
+---
+
 ## Project structure
 
 ```
@@ -144,8 +213,13 @@ Kenya_Market_Prices/
 ├── analysis.ipynb          # All cleaning, analysis and charts
 ├── data/
 │   └── food-prices-kenya.csv
+├── PAMOJA_NOTE.md          # One-page note with advice for Pamoja
 ├── pyproject.toml
 └── README.md
 ```
 
+---
 
+## Data credit
+
+Price data: **World Food Programme (WFP)**, Kenya food prices dataset, published on the **Humanitarian Data Exchange (HDX)**, https://data.humdata.org/.
